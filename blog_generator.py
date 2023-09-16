@@ -1,6 +1,8 @@
 import openai
+from dotenv import dotenv_values
 
-openai.api_key = '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'
+config = dotenv_values('.env')
+openai.api_key = config['API']
 
 def generate_blog(paragraph_topic):
   response = openai.Completion.create(
@@ -14,4 +16,12 @@ def generate_blog(paragraph_topic):
 
   return retrieve_blog
 
-print(generate_blog('Who is the best EDM artist of 2021'))
+keep_writing = True
+
+while keep_writing:
+  answer = input('Write a paragraph? Y for yes, anything else for no.')
+  if answer == 'Y':
+    paragraph_topic = input('What should this paragraph talk about? ')
+    print(generate_blog(paragraph_topic))
+  else:
+    keep_writing = False
